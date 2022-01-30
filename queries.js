@@ -7,6 +7,10 @@ const pool = new Pool({
   port: 5432,
 })
 
+/*
+  Get All Movies
+  :return all movies
+*/
 const getMovies = (request, response) => {
   pool.query('SELECT * FROM movies ORDER BY id ASC', (error, results) => {
     if (error) {
@@ -16,6 +20,10 @@ const getMovies = (request, response) => {
   })
 }
 
+/*
+  Add Single Movie
+  :require json body: name, description
+*/
 const addMovies = (request, response) => {
   const {name, description } = request.body
 
@@ -30,6 +38,10 @@ const addMovies = (request, response) => {
   })
 }
 
+/*
+  Add Single Festival
+  :require json body: name, movie_id, start_date, end_date, description
+*/
 const addFestivals = (request, response) => {
   const {name, movie_id, start_date, end_date, description} = request.body
 
@@ -44,6 +56,10 @@ const addFestivals = (request, response) => {
   })
 }
 
+/*
+  Get All Festivals
+  :return all festivals
+*/
 const getFestivals = (request, response) => {
   pool.query('Select * from festivals order by id ASC', (error, results) => {
     if (error) {
@@ -53,6 +69,10 @@ const getFestivals = (request, response) => {
   })
 }
 
+/*
+  Get Detail Movie
+  :require param: id
+*/
 const getDetailMovie = (request, response) => {
   const id = parseInt(request.params.id)
   pool.query('Select * from movies where id = $1', [id], (error, results) => {
@@ -69,6 +89,10 @@ const getDetailMovie = (request, response) => {
   })
 }
 
+/*
+  Delete Single Movie
+  :require param: id
+*/
 const deleteMovie = (request, response) => {
   const id = parseInt(request.params.id)
   pool.query('Delete from movies where id = $1', [id], (error, results) => {
@@ -81,6 +105,10 @@ const deleteMovie = (request, response) => {
   })
 }
 
+/*
+  Delete Single Festival
+  :require param: id
+*/
 const deleteFestival = (request, response) => {
   const id = parseInt(request.params.id)
   pool.query('Delete from festivals where id = $1', [id], (error, results) => {
@@ -93,6 +121,10 @@ const deleteFestival = (request, response) => {
   })
 }
 
+/*
+  Get Detail Festival
+  :require param: id
+*/
 const getDetailFestival = (request, response) => {
   const id = parseInt(request.params.id)
   pool.query('Select * from festivals where id = $1', [id], (error, results) => {
@@ -109,6 +141,10 @@ const getDetailFestival = (request, response) => {
   })
 }
 
+/*
+  Get Festivals based on criteria
+  :optional json body: name, movie_id, (start_date and end_date)
+*/
 const searchFestival = (request, response) => {
   const {name, start_date, end_date, movie_id} = request.body
   if (start_date && end_date){
