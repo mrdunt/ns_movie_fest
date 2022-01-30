@@ -111,6 +111,11 @@ const getDetailFestival = (request, response) => {
 
 const searchFestival = (request, response) => {
   const {name, start_date, end_date, movie_id} = request.body
+  if (start_date && end_date){
+    pool.query('Select * from festivals where start_date >= $1 and end_date <= $2', [start_date, end_date], (error, results) => {
+      response.status(200).json(results.rows)
+    })
+  }
   pool.query('Select * from festivals where name like' + "'%"+ request.body.name + "%'" + " or movie_id = $1",[movie_id], (error, results) => {
     if (error){
       response.json(error)
